@@ -56,13 +56,4 @@ def importRotorCharacteristics(characterstics_excel_path):
     return rotor_characteristic
 
 
-rotor_37_coordinates = importRotorCoordinates(
-    '/Volumes/Bridge/Aviation /Bachelor/blade-geometry/Rotor_Coordinates.xlsx')
-rotor_37_charateristics = importRotorCharacteristics(
-    '/Volumes/Bridge/Aviation /Bachelor/blade-geometry/Rotor_Coordinates.xlsx')
-canal_coordinates = importCanalCoordinates(
-    '/Volumes/Bridge/Aviation /Bachelor/blade-geometry/Canal.xlsx')
-
-
-
 
