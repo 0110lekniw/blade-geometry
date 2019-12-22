@@ -16,7 +16,6 @@ def quadraticInterpolation(x, y):
     coefficients = np.empty((number_of_points-1, 3))
     a0 = (y[1] - y[0]) / (x[1] - x[0])
 
-
     for i in range(0, number_of_points-1):
         if i == 0:
             n = 1
