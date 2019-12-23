@@ -40,4 +40,3 @@ def linearCramerRoots(left_hand_side_matrix, right_hand_side_matrix):
         roots[column] = root_determination / main_determination
     return roots
 
-
