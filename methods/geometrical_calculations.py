@@ -2,11 +2,16 @@ import numpy as np
 import math
 from methods.equations_solver import linearCramerRoots
 
+def twoPointsLinearFunction(point_one, point_two):
+    a = (point_two[1] - point_one[1]) / (point_two[0] - point_one[0])
+    b = 0 + point_one[1] - point_one[0] * a
+    linear = np.poly1d([a, b])
+    return linear
+
 
 def linearFunctionsIntersections(function_one, function_two):
-    A = np.array([-function_one[0], 1], [-function_two[0], 1])
-    B = np.array([function_one[1]], [function_two[1]])
-    return linearCramerRoots(A, B)
+    x = (function_two[0]-function_one[0])/(function_two[1]-function_one[1])
+    return np.array([x, function_two(x)])
 
 def vectorCalculation(first_point, second_point):
     delta_x = second_point[0] - first_point[0]
@@ -27,24 +32,33 @@ def degreeBetweenVectors(vector_1, vector_2):
     return degree
 
 
-def averageDegreeBiscetorEquation(linear_one, linear_two):
+def averageDegreeBiscetorEquation(linear_one, linear_two, which_one):
     # dc  - directional coefficient
-    bisector_dc_smaller_angle = math.tan((math.atan(linear_one[0]) + math.atan(linear_two[0])) / 2)
+    bisector_dc_smaller_angle = math.tan((math.atan(linear_one[1]) + math.atan(linear_two[1])) / 2)
     intersection_point = linearFunctionsIntersections(linear_one, linear_two)
     bisector_coefficient_smaller_angle = intersection_point[1] - intersection_point[0]*bisector_dc_smaller_angle
+
     vector_one = vectorCalculation(intersection_point, np.array([intersection_point[0]+1,
                                                         (intersection_point[0]+1)*linear_one[0]+linear_one[1]]))
     vector_two = vectorCalculation(intersection_point, np.array([intersection_point[0]+1,
                             (intersection_point[0]+1)*bisector_dc_smaller_angle+bisector_coefficient_smaller_angle]))
     smaller_degree = degreeBetweenVectors(vector_one, vector_two)
-    if smaller_degree > math.pi/2:
+
+    if bisector_dc_smaller_angle == 0:
+        bisector_dc_larger_angle = 1
+    elif smaller_degree > math.pi/2:
         smaller_degree = smaller_degree-math.pi/2
         bisector_dc_smaller_angle = -1/bisector_dc_smaller_angle
-    bisector_dc_larger_angle = -1/bisector_dc_smaller_angle
+    else:
+        bisector_dc_larger_angle = -1/bisector_dc_smaller_angle
     bisector_coefficient_larger_angle = intersection_point[1] - intersection_point[0]*bisector_dc_larger_angle
     larger_degree = smaller_degree+math.pi/2
-    return np.array([[bisector_dc_smaller_angle, bisector_coefficient_smaller_angle, smaller_degree],
-                     [bisector_dc_larger_angle, bisector_coefficient_larger_angle, larger_degree]])
+    smaller_angle_biscetor = np.poly1d([bisector_dc_smaller_angle, bisector_coefficient_smaller_angle])
+    larger_angle_bisector = np.poly1d([bisector_dc_larger_angle, bisector_coefficient_larger_angle])
+    if which_one == 'smaller':
+        return smaller_angle_biscetor
+    else:
+        return larger_angle_bisector
 
 
 
