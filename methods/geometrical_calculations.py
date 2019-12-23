@@ -60,6 +60,21 @@ def averageDegreeBiscetorEquation(linear_one, linear_two, which_one):
     else:
         return larger_angle_bisector
 
+def movePointsByVector(points, vector):
+    for i in range(points.shape[0]):
+        points[i , 0] += vector[0]
+        points[i , 1] += vector[1]
+    return points
+
+def turnPoint(points, angle):
+    for i in range(points.shape[0]):
+        x = points[i, 0]
+        y = points[i, 0]
+        points[i, 0] = (x*math.cos(angle)-y*math.sin(angle))
+        points[i, 1] = (x*math.sin(angle)+y*math.cos(angle))
+    return points
+
+
 
 
 
